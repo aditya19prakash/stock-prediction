@@ -1,36 +1,27 @@
-import requests
+import requests  # assuming you're using requests
 
 def get_symbol_from_name(company_name):
-    url = "https://query2.finance.yahoo.com/v1/finance/search"
-    params = {"q": company_name, "quotes_count": 5, "news_count": 0}
+    url = f"https://query2.finance.yahoo.com/v1/finance/search"
+    params = {'q': company_name, 'quotes_count': 1}
     
     try:
-        response = _make_request(url, params=params)
-        
-        if not response.text:
-            print("Received an empty response")
-            return None, None
-        
-        data = response.json()
-        if 'quotes' in data and data['quotes']:
-            symbol = data['quotes'][0]['symbol']
-            exchange = data['quotes'][0]['exchange']
-            return symbol, exchange
-        else:
-            print("No quotes found for the given company name.")
-            return None, None
-    except requests.exceptions.RequestException as e:
-        print(f"Network error: {e}")
-        return None, None
-    except requests.exceptions.JSONDecodeError:
-        print("Failed to parse JSON response")
-        return None, None
-
-def _make_request(url, params):
-    try:
         response = requests.get(url, params=params)
-        response.raise_for_status()
-        return response
+        print(f"Response Status: {response.status_code}")
+        print(f"Response Text: {response.text}")
+        
+        if response.status_code == 200 and response.text:
+            data = response.json()  # assuming the response is JSON
+            if 'quotes' in data and data['quotes']:
+                symbol = data['quotes'][0]['symbol']
+                exchange = data['quotes'][0]['exchange']
+                return symbol, exchange
+            else:
+                print(f"No symbol found for {company_name}")
+                return None, None
+        else:
+            print("Failed to retrieve data or empty response")
+            return None, None
+            
     except requests.exceptions.RequestException as e:
-        print(f"Error making request: {e}")
-        return None
+        print(f"Request failed: {e}")
+        return None, None
