@@ -1,2 +1,9 @@
-yfinance
 streamlit
+yfinance
+yahooquery
+numpy
+pandas
+tensorflow
+prophet
+statsmodels
+plotly
