@@ -11,26 +11,11 @@ from statsmodels.tsa.arima.model import ARIMA
 import plotly.graph_objects as go
 import concurrent.futures
 from datetime import datetime
+from yahoo_api_handler import get_symbol_from_name
 
 # Function to get symbol from company name
 import requests
 import yahooquery as yq
-
-def get_symbol_from_name(company_name):
-    try:
-        search_result = yq.search(company_name)
-        if 'quotes' in search_result:
-            for quote in search_result['quotes']:
-                if 'symbol' in quote:
-                    return quote['symbol'], quote['exchange']
-        raise ValueError("Company not found.")
-    except requests.exceptions.RequestException as e:
-        print(f"Error with request: {e}")
-        return None, None
-    except ValueError as e:
-        print(f"Error: {e}")
-        return None, None
-
 
 # Function to build LSTM model
 def build_lstm_model(input_shape):
@@ -96,7 +81,7 @@ def display_mutual_funds_prediction():
 
     if st.button("Predict"):
         st.session_state.company_name = company_name
-        symbol, exchange = get_symbol_from_name(company_name)
+        symbol, exchange =  get_symbol_from_name(company_name)
 
         if not symbol:
             st.warning("Could not find a valid stock symbol for the entered company name.")

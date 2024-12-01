@@ -7,6 +7,7 @@ from prophet import Prophet
 import time
 import plotly.graph_objects as go
 import datetime
+from yahoo_api_handler import get_symbol_from_name
 def fetch_stock_news(symbol):
     try:
         ticker = yq.Ticker(symbol)
@@ -14,17 +15,6 @@ def fetch_stock_news(symbol):
         return news
     except Exception as e:
         return []
-# Function to get symbol from company name
-def get_symbol_from_name(company_name):
-    search_result = yq.search(company_name)
-    if search_result['quotes']:
-        symbol = search_result['quotes'][0]['symbol']
-        exchange = search_result['quotes'][0]['exchange']
-        return symbol, exchange
-    else:
-        return None, None
-
-# Function to detect outliers
 def detect_outliers(data):
     Q1 = np.percentile(data, 25)
     Q3 = np.percentile(data, 75)
