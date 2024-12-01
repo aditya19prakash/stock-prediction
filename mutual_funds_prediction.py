@@ -13,13 +13,24 @@ import concurrent.futures
 from datetime import datetime
 
 # Function to get symbol from company name
+import requests
+import yahooquery as yq
+
 def get_symbol_from_name(company_name):
-    search_result = yq.search(company_name)
-    if search_result['quotes']:
-        symbol = search_result['quotes'][0]['symbol']
-        exchange = search_result['quotes'][0]['exchange']
-        return symbol, exchange
-    return None, None
+    try:
+        search_result = yq.search(company_name)
+        if 'quotes' in search_result:
+            for quote in search_result['quotes']:
+                if 'symbol' in quote:
+                    return quote['symbol'], quote['exchange']
+        raise ValueError("Company not found.")
+    except requests.exceptions.RequestException as e:
+        print(f"Error with request: {e}")
+        return None, None
+    except ValueError as e:
+        print(f"Error: {e}")
+        return None, None
+
 
 # Function to build LSTM model
 def build_lstm_model(input_shape):
