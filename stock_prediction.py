@@ -7,7 +7,6 @@ from prophet import Prophet
 import time
 import plotly.graph_objects as go
 import datetime
-from yahoo_api_handler import get_symbol_from_name
 def fetch_stock_news(symbol):
     try:
         ticker = yq.Ticker(symbol)
@@ -15,6 +14,17 @@ def fetch_stock_news(symbol):
         return news
     except Exception as e:
         return []
+# Function to get symbol from company name
+def get_symbol_from_name(company_name):
+    search_result = yq.search(company_name)
+    if search_result['quotes']:
+        symbol = search_result['quotes'][0]['symbol']
+        exchange = search_result['quotes'][0]['exchange']
+        return symbol, exchange
+    else:
+        return None, None
+
+# Function to detect outliers
 def detect_outliers(data):
     Q1 = np.percentile(data, 25)
     Q3 = np.percentile(data, 75)
@@ -60,7 +70,7 @@ def display_stock_prediction():
             stock_data = yf.download(symbol, start=start_date, end=end_date)
             time.sleep(1)
             progress_bar.progress(0.25)
-            print(stock_data)
+          #  print(stock_data)
 
         if stock_data.empty:
             st.write("No data available for this symbol.")
@@ -77,7 +87,7 @@ def display_stock_prediction():
 
         outliers = detect_outliers(stock_data['Close'])
         if not outliers.empty:
-            st.warning(f"Outliers detected in closing prices: {outliers.values}")
+           # st.warning(f"Outliers detected in closing prices: {outliers.values}")
             stock_data = stock_data[~stock_data['Close'].isin(outliers)]
 
         # Prepare data for Prophet

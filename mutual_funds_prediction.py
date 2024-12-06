@@ -4,27 +4,70 @@ import yahooquery as yq
 import numpy as np
 import pandas as pd
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense
+from tensorflow.keras.layers import LSTM, Dense,Dropout
 from sklearn.preprocessing import MinMaxScaler
 from prophet import Prophet
 from statsmodels.tsa.arima.model import ARIMA
 import plotly.graph_objects as go
 import concurrent.futures
 from datetime import datetime
-from yahoo_api_handler import get_symbol_from_name
-
-# Function to get symbol from company name
 import requests
 import yahooquery as yq
+
+def get_symbol_from_name(company_name):
+    try:
+        # Search for the company using yahooquery
+        search_result = yq.search(company_name)
+        
+        # Debugging: Print the raw search result to understand the structure
+       # print(search_result)  # This prints to your console or logs, not the Streamlit UI
+      #  st.write(search_result)  # This will show the result in your Streamlit UI
+
+        # Check if search results contain 'quotes'
+        if 'quotes' in search_result:
+            for quote in search_result['quotes']:
+                if 'symbol' in quote:
+                    symbol = quote['symbol']
+                    
+                    # Filter symbols to only return Indian stocks
+                    if symbol.endswith(".NS") or symbol.endswith(".BO"):
+                        #print(symbol, quote)
+                        return symbol, quote.get('exchange', 'Unknown')
+
+        # Raise error if no valid Indian stock symbol is found
+        st.error("No Indian stock symbol found for the given company.")
+        return -1, None
+    except Exception as e:
+        # Handle errors gracefully
+        st.error(f"Error: {e}")
+        return None, None
+
+
 
 # Function to build LSTM model
 def build_lstm_model(input_shape):
     model = Sequential([
-        LSTM(units=50, return_sequences=True, input_shape=input_shape),
+        # First LSTM layer
+        LSTM(units=100, return_sequences=True, input_shape=input_shape),
+        Dropout(0.2),  # Dropout for regularization
+
+        # Second LSTM layer
+        LSTM(units=100, return_sequences=True),
+        Dropout(0.2),
+
+        # Third LSTM layer
         LSTM(units=50, return_sequences=False),
-        Dense(units=1)
+        Dropout(0.2),
+
+        # Dense layers for better representation
+        Dense(units=50, activation='relu'),
+        Dense(units=25, activation='relu'),
+        Dense(units=1)  # Output layer
     ])
-    model.compile(optimizer='adam', loss='mean_squared_error')
+
+    # Compile the model
+    model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])
+
     return model
 
 # Detect outliers
@@ -57,12 +100,16 @@ def lstm_prediction(scaled_data, scaler, training_data_len):
 
 # Prophet Model Prediction
 def prophet_prediction(stock_data):
+    if 'Close' not in stock_data.columns:
+        raise ValueError("Stock data must contain a 'Close' column")
+    stock_data.index = pd.to_datetime(stock_data.index)
     df = pd.DataFrame({'ds': stock_data.index, 'y': stock_data['Close']})
     prophet_model = Prophet()
     prophet_model.fit(df)
     future = prophet_model.make_future_dataframe(periods=120)
     forecast = prophet_model.predict(future)
     return forecast['yhat'].tail(120).values
+
 
 # ARIMA Model Prediction
 def arima_prediction(stock_data):
@@ -86,11 +133,13 @@ def display_mutual_funds_prediction():
         if not symbol:
             st.warning("Could not find a valid stock symbol for the entered company name.")
             return
+        if symbol==-1:
+            return
 
         st.subheader(f"Prediction for {company_name}")
         st.write(f"The symbol of the company is {symbol} and it's listed on {exchange}")
 
-        start_date = "2021-01-01"
+        start_date = "2023-06-01"
         end_date = "2024-11-30"
         
         progress_bar = st.progress(0)
@@ -112,7 +161,7 @@ def display_mutual_funds_prediction():
         
         outliers = detect_outliers(stock_data['Close'])
         if not outliers.empty:
-            st.warning(f"Outliers detected in closing prices: {outliers.values}")
+            #st.warning(f"Outliers detected in closing prices: {outliers.values}")
             stock_data = stock_data[~stock_data['Close'].isin(outliers)]
 
         data = stock_data['Close'].values.reshape(-1, 1)
@@ -136,8 +185,14 @@ def display_mutual_funds_prediction():
                 arima_predictions = arima_future.result()
                 progress_bar.progress(0.75)
 
-        # Combine Predictions
-        combined_predictions = np.mean([lstm_predictions[-120:], prophet_predictions, arima_predictions], axis=0)
+        min_length = min(len(lstm_predictions[-120:]), len(prophet_predictions), len(arima_predictions))
+
+        lstm_adjusted = lstm_predictions[-min_length:]
+        prophet_adjusted = prophet_predictions[-min_length:]
+        arima_adjusted = arima_predictions[-min_length:]
+
+        combined_predictions = np.mean([lstm_adjusted, prophet_adjusted, arima_adjusted], axis=0)
+
 
         # Plot Combined Predictions
         fig = go.Figure()
