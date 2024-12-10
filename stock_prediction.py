@@ -85,11 +85,11 @@ def lstm_prediction(scaled_data, scaler, training_data_len):
     predictions = lstm_model.predict(x_test)
     return scaler.inverse_transform(predictions).flatten()
 def detect_outliers(data):
-    Q1 = np.percentile(data, 25)
-    Q3 = np.percentile(data, 75)
-    IQR = Q3 - Q1
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
+    q1 = np.percentile(data, 25)
+    q3 = np.percentile(data, 75)
+    iqr = q3 - q1
+    lower_bound = q1 - 1.5 * iqr
+    upper_bound = q3 + 1.5 * iqr
     return data[(data < lower_bound) | (data > upper_bound)]
 
 def display_stock_prediction():
@@ -157,23 +157,30 @@ def display_stock_prediction():
                 prophet_future = executor.submit(prophet_prediction, stock_data)
                 arima_future = executor.submit(arima_prediction, stock_data)
 
+                # Prepare data for XGBoost
+                xgb_train_data = scaled_data[:training_data_len]
+                xgb_target_data = scaled_data[120:training_data_len + 120]  # Adjust according to your target variable
+
+                # Add XGBoost prediction to the executor
+                xgb_future = executor.submit(xgboost_prediction, xgb_train_data, xgb_target_data)
+
                 lstm_predictions = lstm_future.result()
                 prophet_predictions = prophet_future.result()
                 arima_predictions = arima_future.result()
-                progress_bar.progress(0.75)
+                xgb_predictions = xgb_future.result()
 
-        min_length = min(len(lstm_predictions), len(prophet_predictions), len(arima_predictions))
-        
-        combined_predictions = np.mean([
-            lstm_predictions[-min_length:] if lstm_predictions is not None else np.zeros(min_length),
-            prophet_predictions[-min_length:],
-            arima_predictions[-min_length:]
-        ], axis=0)
-        st.session_state['predictions_cache'][company_name] = {
-            'historical_data': stock_data[-120:],
-            'combined_predictions': combined_predictions
-        }
-        plot_predictions(stock_data[-120:], combined_predictions, symbol)
+            # Combine predictions (modify this as needed)
+            combined_predictions = np.mean([lstm_predictions[-min_length:],
+                                            prophet_predictions[-min_length:],
+                                            arima_predictions[-min_length:],
+                                            xgb_predictions[-min_length:]], axis=0)
+
+            st.session_state['predictions_cache'][company_name] = {
+                'historical_data': stock_data[-120:],
+                'combined_predictions': combined_predictions
+            }
+
+            plot_predictions(stock_data[-120:], combined_predictions, symbol)
         
         progress_bar.progress(1.0)
         hide_button_style = """
