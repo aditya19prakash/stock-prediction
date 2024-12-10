@@ -3,6 +3,7 @@ import yfinance as yf
 import yahooquery as yq
 import numpy as np
 import pandas as pd
+
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from sklearn.preprocessing import MinMaxScaler
