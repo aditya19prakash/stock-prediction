@@ -70,7 +70,13 @@ def arima_prediction(stock_data):
     arima_model_fit = arima_model.fit()
     forecast = arima_model_fit.forecast(steps=120)
     return forecast.values
-
+def detect_outliers(data):
+    Q1 = np.percentile(data, 25)
+    Q3 = np.percentile(data, 75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    return data[(data < lower_bound) | (data > upper_bound)]
 def display_mutual_funds_prediction():
     if 'predictions_cache' not in st.session_state:
       st.session_state['predictions_cache'] = {}
@@ -98,6 +104,7 @@ def display_mutual_funds_prediction():
         if stock_data.empty:
             st.write("No data available for this symbol.")
             return
+        
 
         stock_data.dropna(inplace=True)
         data = stock_data['Close'].values.reshape(-1, 1)
@@ -168,7 +175,7 @@ def plot_predictions(historical_data, combined_predictions, symbol):
         y=remaining_predictions,
         mode='lines+markers',
         name='Predicted Price',
-        line=dict(color='orange', width=2),
+        line=dict(color='orange', width=2,),
         marker=dict(size=6)
     ))
 
