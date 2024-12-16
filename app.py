@@ -7,7 +7,7 @@ from mutual_funds_prediction import display_mutual_funds_prediction
 st.set_page_config(
     page_title="Stock and Mutual Prediction",
     layout="wide",  
-    page_icon=":rocket:"  
+    page_icon="logo1.png"  
 )
 
 
