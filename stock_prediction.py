@@ -3,9 +3,9 @@ import yfinance as yf
 import yahooquery as yq
 import numpy as np
 import pandas as pd
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout, Input
-from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.layers import LSTM, Dense, Dropout, Input # type: ignore
+from tensorflow.keras.callbacks import EarlyStopping # type: ignore
 from sklearn.preprocessing import MinMaxScaler
 from prophet import Prophet
 from statsmodels.tsa.arima.model import ARIMA
@@ -132,11 +132,13 @@ def detect_outliers(data):
 def display_stock_prediction():
     if 'predictions_cache' not in st.session_state:
         st.session_state['predictions_cache'] = {}
-    
+    if 'input_text' not in st.session_state:
+        st.session_state.input_text = ""
+    st.session_state.input_text = ""
     if 'stop_training' not in st.session_state:
         st.session_state['stop_training'] = False 
     company_name = st.text_input("Enter Company Name:", value=st.session_state.get('company_name', ''))
-    
+        
     if st.button("Predict"):
         st.session_state.company_name = company_name
         symbol, exchange = get_symbol_from_name(company_name)
@@ -168,7 +170,7 @@ def display_stock_prediction():
                return
             progress_bar.progress(0.25)
         if stock_data.isnull().values.any():
-            st.warning("Data contains null values. Performing data cleaning...")
+            #st.warning("Data contains null values. Performing data cleaning...")
             stock_data = stock_data.dropna()
             if stock_data.empty:
                 st.error("After cleaning, no data is available for this symbol.")
@@ -176,7 +178,7 @@ def display_stock_prediction():
         
         outliers = detect_outliers(stock_data['Close'])
         if not outliers.empty:
-            st.warning("Outliers detected in closing prices:")
+           # st.warning("Outliers detected in closing prices:")
             stock_data = stock_data[~stock_data['Close'].isin(outliers)]
         
         # Feature scaling
@@ -200,17 +202,7 @@ def display_stock_prediction():
             prophet_length = len(prophet_predictions)
             arima_length = len(arima_predictions)
             xgb_length = len(xgb_predictions)
-          
-  
-          
-            time.sleep(4)
-   
-            st.warning("LSTM Predictions Length:", lstm_length)
-            st.warning("Prophet Predictions Length:", prophet_length)
-            st.warning("ARIMA Predictions Length:", arima_length)
-            st.warning("XGBoost Predictions Length:", xgb_length)
-
-
+            time.sleep(3)
             min_length = min(lstm_length, prophet_length, arima_length, xgb_length)
 
             combined_predictions = np.mean([
@@ -232,7 +224,7 @@ def smooth_predictions(predictions, sigma=2):
     return gaussian_filter1d(predictions, sigma=sigma)
 
 def plot_predictions(historical_data, combined_predictions, symbol):
-    time.sleep(3)
+
     transition_days = 1
     historical_prices = historical_data['Close'].values[-transition_days:].reshape(-1) if historical_data is not None else []
     transition_predictions = combined_predictions[:transition_days]

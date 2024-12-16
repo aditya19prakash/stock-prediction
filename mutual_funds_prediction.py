@@ -3,9 +3,9 @@ import yfinance as yf
 import yahooquery as yq
 import numpy as np
 import pandas as pd
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout, Input
-from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.layers import LSTM, Dense, Dropout, Input # type: ignore
+from tensorflow.keras.callbacks import EarlyStopping # type: ignore
 from sklearn.preprocessing import MinMaxScaler
 from prophet import Prophet
 from statsmodels.tsa.arima.model import ARIMA
@@ -156,7 +156,7 @@ def display_mutual_funds_prediction():
                return
             progress_bar.progress(0.25)
         if stock_data.isnull().values.any():
-            st.warning("Data contains null values. Performing data cleaning...")
+           # st.warning("Data contains null values. Performing data cleaning...")
             stock_data = stock_data.dropna()
             if stock_data.empty:
                 st.error("After cleaning, no data is available for this symbol.")
@@ -164,7 +164,6 @@ def display_mutual_funds_prediction():
         
         outliers = detect_outliers(stock_data['Close'])
         if not outliers.empty:
-            st.warning("Outliers detected in closing prices:")
             stock_data = stock_data[~stock_data['Close'].isin(outliers)]
         
         # Feature scaling
@@ -189,7 +188,7 @@ def display_mutual_funds_prediction():
             arima_length = len(arima_predictions)
             xgb_length = len(xgb_predictions)
           
-            time.sleep(4)
+            time.sleep(3)
    
             st.warning("LSTM Predictions Length:", lstm_length)
             st.warning("Prophet Predictions Length:", prophet_length)
@@ -224,10 +223,8 @@ def plot_predictions(historical_data, combined_predictions, symbol):
     smooth_transition = np.concatenate([historical_prices, transition_predictions]) if historical_data is not None else []
     std_dev = np.std(combined_predictions)
     if std_dev > 0.05: 
-        st.warning("Data is too noisy, applying smoothing...")
         smoothed_combined_predictions = smooth_predictions(combined_predictions)
     else:
-        st.warning("Data is not too noisy, using raw predictions.")
         smoothed_combined_predictions = combined_predictions
     if historical_data is not None:
         historical_120_days = historical_data[-120:]
