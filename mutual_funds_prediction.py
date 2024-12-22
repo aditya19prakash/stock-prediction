@@ -8,12 +8,10 @@ from tensorflow.keras.layers import LSTM, Dense, Dropout, Input # type: ignore
 from tensorflow.keras.callbacks import EarlyStopping # type: ignore
 from sklearn.preprocessing import MinMaxScaler
 from prophet import Prophet
-from statsmodels.tsa.arima.model import ARIMA
 import plotly.graph_objects as go
 import concurrent.futures
 import time
 from datetime import datetime
-from xgboost import XGBRegressor
 from scipy.ndimage import gaussian_filter1d
 import logging
 logging.getLogger('tensorflow').setLevel(logging.ERROR)
