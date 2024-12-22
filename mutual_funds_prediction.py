@@ -15,7 +15,8 @@ import time
 from datetime import datetime
 from xgboost import XGBRegressor
 from scipy.ndimage import gaussian_filter1d
-
+import logging
+logging.getLogger('tensorflow').setLevel(logging.ERROR)
 if 'predictions_cache' not in st.session_state:
     st.session_state['predictions_cache'] = {}
 
@@ -26,35 +27,13 @@ def get_symbol_from_name(company_name):
         if 'quotes' in search_result:
             for quote in search_result['quotes']:
                 if 'symbol' in quote and (quote['symbol'].endswith(".BO")):
-                    return quote['symbol'], quote.get('exchange', 'Unknown')
+                    return quote['symbol']
         st.error("This stock is not listed in NSE(National Stock Exchange).")
-        return -1, None
+        return -1
     except Exception as e:
         st.error(f"Error: {e}")
-        return None, None
+        return None
 
-
-def xgboost_prediction(stock_data):
-  
-    if 'Close' not in stock_data.columns:
-        raise ValueError("Stock data must contain a 'Close' column")
-    stock_data['Date'] = pd.to_datetime(stock_data.index)
-    stock_data['Day'] = stock_data['Date'].dt.day
-    stock_data['Month'] = stock_data['Date'].dt.month
-    stock_data['Year'] = stock_data['Date'].dt.year
-    features = ['Day', 'Month', 'Year']
-    target = 'Close'
-    train_size = int(len(stock_data) * 0.8)
-    train_data = stock_data.iloc[:train_size]
-    test_data = stock_data.iloc[train_size:]
-    x_train = train_data[features]
-    y_train = train_data[target]
-    x_test = test_data[features]
-    y_test = test_data[target]
-    model = XGBRegressor(objective='reg:squarederror', n_estimators=100, learning_rate=0.1)
-    model.fit(x_train, y_train)
-    predictions = model.predict(x_test)
-    return predictions
 
 def build_lstm_model(input_shape):
     model = Sequential([
@@ -81,12 +60,6 @@ def prophet_prediction(stock_data):
     forecast = prophet_model.predict(future)
     return forecast['yhat'].tail(120).values
 
-
-def arima_prediction(stock_data):
-    arima_model = ARIMA(stock_data['Close'], order=(5, 1, 0))
-    arima_model_fit = arima_model.fit()
-    forecast = arima_model_fit.forecast(steps=120)
-    return forecast.values
 
 def lstm_prediction(scaled_data, scaler, training_data_len):
     stop_training = st.session_state.get('stop_training', False)
@@ -125,16 +98,10 @@ def display_mutual_funds_prediction():
     if 'stop_training' not in st.session_state:
         st.session_state['stop_training'] = False 
     company_name = st.text_input("Enter Company Name:", value=st.session_state.get('company_name', ''))
-    
-    if st.button("Predict"):
+   
+    if st.button("Predict") or company_name:
         st.session_state.company_name = company_name
-        symbol, exchange = get_symbol_from_name(company_name)
-        stop_button = st.button("Stop Training")
-        if stop_button:
-           st.session_state['stop_training'] = True  
-           st.warning("Training stopped!")
-           display_mutual_funds_prediction()
-
+        symbol= get_symbol_from_name(company_name)
         if not symbol or symbol == -1:
             return
 
@@ -156,7 +123,6 @@ def display_mutual_funds_prediction():
                return
             progress_bar.progress(0.25)
         if stock_data.isnull().values.any():
-           # st.warning("Data contains null values. Performing data cleaning...")
             stock_data = stock_data.dropna()
             if stock_data.empty:
                 st.error("After cleaning, no data is available for this symbol.")
@@ -166,7 +132,7 @@ def display_mutual_funds_prediction():
         if not outliers.empty:
             stock_data = stock_data[~stock_data['Close'].isin(outliers)]
         
-        # Feature scaling
+    
         data = stock_data['Close'].values.reshape(-1, 1)
         scaler = MinMaxScaler(feature_range=(0, 1))
         scaled_data = scaler.fit_transform(data)
@@ -177,32 +143,18 @@ def display_mutual_funds_prediction():
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 lstm_future = executor.submit(lstm_prediction, scaled_data, scaler, training_data_len)
                 prophet_future = executor.submit(prophet_prediction, stock_data)
-                arima_future = executor.submit(arima_prediction, stock_data)
                 lstm_predictions = lstm_future.result()
                 prophet_predictions = prophet_future.result()
-                arima_predictions = arima_future.result()
+              
         with st.spinner("PLotting Graph..."):    
-            xgb_predictions=xgboost_prediction(stock_data)
             lstm_length = len(lstm_predictions)
             prophet_length = len(prophet_predictions)
-            arima_length = len(arima_predictions)
-            xgb_length = len(xgb_predictions)
-          
-            time.sleep(3)
-   
-            st.warning("LSTM Predictions Length:", lstm_length)
-            st.warning("Prophet Predictions Length:", prophet_length)
-            st.warning("ARIMA Predictions Length:", arima_length)
-            st.warning("XGBoost Predictions Length:", xgb_length)
-
-
-            min_length = min(lstm_length, prophet_length, arima_length, xgb_length)
+            time.sleep(2)
+            min_length = min(lstm_length, prophet_length)
 
             combined_predictions = np.mean([
                             lstm_predictions[-min_length:], 
-                           prophet_predictions[-min_length:], 
-                             arima_predictions[-min_length:], 
-                            xgb_predictions[-min_length:]
+                           prophet_predictions[-min_length:]
                         ], axis=0)
                 
             st.session_state['predictions_cache'][company_name] = {
@@ -217,6 +169,7 @@ def smooth_predictions(predictions, sigma=2):
     return gaussian_filter1d(predictions, sigma=sigma)
 
 def plot_predictions(historical_data, combined_predictions, symbol):
+  
     transition_days = 1
     historical_prices = historical_data['Close'].values[-transition_days:].reshape(-1) if historical_data is not None else []
     transition_predictions = combined_predictions[:transition_days]
@@ -234,7 +187,6 @@ def plot_predictions(historical_data, combined_predictions, symbol):
                                  periods=len(combined_predictions), freq='B') if historical_data is not None else pd.date_range(start=datetime.datetime.today(), periods=len(combined_predictions), freq='B')
     merged_future_dates = np.concatenate([historical_data.index[-transition_days:], future_dates]) if historical_data is not None else future_dates
     merged_smoothed_predictions = np.concatenate([smooth_transition, smoothed_combined_predictions[transition_days:]])
-
     if len(merged_future_dates) != len(merged_smoothed_predictions):
         st.warning("Length mismatch: Future dates vs. Predictions")
         return
@@ -256,7 +208,7 @@ def plot_predictions(historical_data, combined_predictions, symbol):
         x=merged_future_dates, 
         y=merged_smoothed_predictions, 
         mode='lines',
-        name='Predicted Price',
+        name=f'Predicted Price ({len(merged_smoothed_predictions)} Days)',
         line=dict(color='orange', width=2),
     ))
 
@@ -283,10 +235,8 @@ def sip_calculator(symbol):
         st.warning("No data available for the selected symbol and date range.")
         return
     sip_data = stock_data.iloc[-252:]
-    monthly_investment = st.number_input(
-        "Monthly Investment Amount (₹):", 
-        value=1000, 
-    )
+    monthly_investment = 1000 
+    st.write(f"Monthly Investment Amount (₹): {monthly_investment}")
     initial_price = sip_data['Close'].iloc[0]  
     final_price = sip_data['Close'].iloc[-1]  
     annual_return = ((final_price - initial_price) / initial_price) * 100
@@ -305,7 +255,3 @@ def sip_calculator(symbol):
 
     fv = p * (((1 + r)**n - 1) / r) * (1 + r)
     st.write(f"Future Value after {years} years based on predicted prices: ₹{fv:.2f}")
-
-
-if __name__ == "__main__":
-    display_mutual_funds_prediction()
