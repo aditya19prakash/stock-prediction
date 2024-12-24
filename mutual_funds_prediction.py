@@ -161,12 +161,12 @@ def display_mutual_funds_prediction():
                 }
             progress_bar.progress(1.0)
              
-            plot_predictions(stock_data[-120:], combined_predictions, symbol)
+            plot_predictions(stock_data[-120:], combined_predictions, symbol, company_name)
         
 def smooth_predictions(predictions, sigma=2):
     return gaussian_filter1d(predictions, sigma=sigma)
 
-def plot_predictions(historical_data, combined_predictions, symbol):
+def plot_predictions(historical_data, combined_predictions, symbol, company_name):
   
     transition_days = 1
     historical_prices = historical_data['Close'].values[-transition_days:].reshape(-1) if historical_data is not None else []
