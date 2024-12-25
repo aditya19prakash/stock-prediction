@@ -184,11 +184,10 @@ def plot_predictions(historical_data, combined_predictions, symbol, company_name
     periods=len(combined_predictions), freq='B') if historical_data is not None else pd.date_range(start=datetime.datetime.today(), periods=len(combined_predictions), freq='B')
     merged_future_dates = np.concatenate([historical_data.index[-1:], future_dates]) if historical_data is not None else future_dates
     merged_smoothed_predictions = np.concatenate([historical_prices, smoothed_combined_predictions])
-
     if len(merged_future_dates) != len(merged_smoothed_predictions):
         st.warning("Length mismatch: Future dates vs. Predictions")
         return
-
+    None
     fig = go.Figure()
     closing_prices = historical_120_days['Close'].squeeze()
     if historical_120_days is not None:
