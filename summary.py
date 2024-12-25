@@ -1,8 +1,20 @@
-import wikipedia
-from wikipedia.exceptions import DisambiguationError, PageError
+import wikipediaapi
 import re
 import streamlit as st
 import yahooquery as yq
+
+def get_symbol_from_name(company_name):
+    try:
+        search_result = yq.search(company_name)
+        if 'quotes' in search_result:
+            for quote in search_result['quotes']:
+                if 'symbol' in quote and (quote['symbol'].endswith(".NS")):
+                    return quote['symbol'], quote.get('shortname', 'N/A')
+        st.error("This stock is not listed in NSE(National Stock Exchange).")
+        return -1, 'N/A'
+    except Exception as e:
+        st.error(f"Error: {e}")
+        return None, 'N/A'
 
 def get_additional_stock_info(symbol):
     try:
@@ -80,26 +92,31 @@ def display_additional_stock_info(info):
 
 def get_wikipedia_summary(full_name):
     try:
-        search_results = wikipedia.search(full_name + " (company)")
-        if not search_results:
+        print(f"Searching Wikipedia for: {full_name}")
+        
+        # Set a custom user agent
+        wiki_wiki = wikipediaapi.Wikipedia(
+            language='en',
+            extract_format=wikipediaapi.ExtractFormat.WIKI,
+            user_agent="stock-prediction/1.0 (adyprakash19@gmail.com)"
+        )
+        
+        page = wiki_wiki.page(full_name)
+
+        if not page.exists():
             return "No Wikipedia page found for the company name."
-        page_title = search_results[0]
-        summary = wikipedia.summary(page_title, sentences=30)
-        if "may refer to" in summary:
-            return "Disambiguation error: Multiple entries found for the company name."
-        # Remove extra whitespaces and unwanted sections
-        summary = re.sub(r'\s+', ' ', summary).strip()
-        summary = re.sub(r'==\s*History\s*==', '', summary)
-        summary = re.sub(r'===\s*.*?\s*===', '', summary)
-        summary = re.sub(r'[^a-zA-Z0-9\s.,]', '', summary)
-        summary = re.sub(r'\bnudity\b|\bporn\b|\bsex\b|\badult\b', '', summary, flags=re.IGNORECASE)
+
+        # Get the summary of the page
+        summary = page.summary[:60000]  # Limit to 2000 characters
+
+        # Clean up the summary
+        summary = re.sub(r'\s+', ' ', summary).strip()  # Remove extra whitespaces
+        summary = re.sub(r'==\s*History\s*==', '', summary)  # Remove 'History' section
+        summary = re.sub(r'===\s*.*?\s*===', '', summary)  # Remove subheadings
+        summary = re.sub(r'\bnudity\b|\bporn\b|\bsex\b|\badult\b', '', summary, flags=re.IGNORECASE)  # Remove adult content terms
         return summary
-    except DisambiguationError as e:
-        return f"Disambiguation error: {e}"
-    except PageError as e:
-        return f"Page error: {e}"
     except Exception as e:
-        return f"Error: {e}"  
+        return f"Error: {e}"
 
 """ MAIN FUNCTION  """
 def summaryprint(company_name, combined_predictions, symbol):
