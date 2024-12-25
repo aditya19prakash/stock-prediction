@@ -187,7 +187,6 @@ def plot_predictions(historical_data, combined_predictions, symbol, company_name
     if len(merged_future_dates) != len(merged_smoothed_predictions):
         st.warning("Length mismatch: Future dates vs. Predictions")
         return
-    None
     fig = go.Figure()
     closing_prices = historical_120_days['Close'].squeeze()
     if historical_120_days is not None:
