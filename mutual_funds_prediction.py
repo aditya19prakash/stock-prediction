@@ -14,6 +14,7 @@ import time
 from datetime import datetime
 from scipy.ndimage import gaussian_filter1d
 import logging
+from summary import summaryprint
 logging.getLogger('tensorflow').setLevel(logging.ERROR)
 if 'predictions_cache' not in st.session_state:
     st.session_state['predictions_cache'] = {}
@@ -106,7 +107,7 @@ def display_mutual_funds_prediction():
         if company_name in st.session_state['predictions_cache']:
             st.success("Using cached predictions.")
             cached_data = st.session_state['predictions_cache'][company_name]
-            plot_predictions(cached_data['historical_data'], cached_data['combined_predictions'], symbol)
+            plot_predictions(cached_data['historical_data'], cached_data['combined_predictions'], symbol, company_name)
             return
 
         start_date = "2023-01-01"
@@ -165,91 +166,93 @@ def display_mutual_funds_prediction():
         
 def smooth_predictions(predictions, sigma=2):
     return gaussian_filter1d(predictions, sigma=sigma)
+def adjust_predictions(historical_prices, predictions, blend_days=5):
+    if len(historical_prices) == 0 or len(predictions) == 0:
+        return predictions
+    adjustment = historical_prices[-1] - predictions[0]
+
+    adjusted_predictions = predictions + adjustment
+
+    weights = np.linspace(1, 0, blend_days)
+    blended_predictions = adjusted_predictions.copy()
+    blended_predictions[:blend_days] = (
+        weights * historical_prices[-blend_days:] + (1 - weights) * adjusted_predictions[:blend_days]
+    )
+    return blended_predictions
 
 def plot_predictions(historical_data, combined_predictions, symbol, company_name):
-  
-    transition_days = 1
-    historical_prices = historical_data['Close'].values[-transition_days:].reshape(-1) if historical_data is not None else []
-    transition_predictions = combined_predictions[:transition_days]
-    smooth_transition = np.concatenate([historical_prices, transition_predictions]) if historical_data is not None else []
-    std_dev = np.std(combined_predictions)
-    if std_dev > 0.05: 
-        smoothed_combined_predictions = smooth_predictions(combined_predictions)
-    else:
-        smoothed_combined_predictions = combined_predictions
+    historical_prices = historical_data['Close'].values[-1:].reshape(-1) if historical_data is not None else []
+    smoothed_combined_predictions = adjust_predictions(historical_prices, combined_predictions)
+    if np.std(combined_predictions) > 0.05:
+        smoothed_combined_predictions = smooth_predictions(smoothed_combined_predictions)
+    smoothed_combined_predictions = np.round(smoothed_combined_predictions, 2)
     if historical_data is not None:
         historical_120_days = historical_data[-120:]
     else:
         historical_120_days = None
-    future_dates = pd.date_range(start=historical_data.index[-1] + pd.Timedelta(days=1), 
-                                 periods=len(combined_predictions), freq='B') if historical_data is not None else pd.date_range(start=datetime.datetime.today(), periods=len(combined_predictions), freq='B')
-    merged_future_dates = np.concatenate([historical_data.index[-transition_days:], future_dates]) if historical_data is not None else future_dates
-    merged_smoothed_predictions = np.concatenate([smooth_transition, smoothed_combined_predictions[transition_days:]])
+    future_dates = pd.date_range(start=historical_data.index[-1] + pd.Timedelta(days=1),
+    periods=len(combined_predictions), freq='B') if historical_data is not None else pd.date_range(start=datetime.datetime.today(), periods=len(combined_predictions), freq='B')
+    merged_future_dates = np.concatenate([historical_data.index[-1:], future_dates]) if historical_data is not None else future_dates
+    merged_smoothed_predictions = np.concatenate([historical_prices, smoothed_combined_predictions])
+
     if len(merged_future_dates) != len(merged_smoothed_predictions):
         st.warning("Length mismatch: Future dates vs. Predictions")
         return
 
     fig = go.Figure()
-    closing_prices =  historical_120_days['Close'].squeeze()
- 
+    closing_prices = historical_120_days['Close'].squeeze()
     if historical_120_days is not None:
+        for i in range(1, len(historical_120_days)):
+            color = 'red' if closing_prices[i] < closing_prices[i - 1] else 'green'
+            fig.add_trace(go.Scatter(
+                x=historical_120_days.index[i-1:i+1],
+                y=closing_prices[i-1:i+1],
+                mode='lines',
+                line=dict(color=color, width=1),
+                showlegend=False,
+                hoverinfo='skip'  
+            ))
+    for i in range(1, len(merged_smoothed_predictions)):
+        color = 'red' if merged_smoothed_predictions[i] < merged_smoothed_predictions[i - 1] else 'green'
         fig.add_trace(go.Scatter(
-            x=historical_120_days.index, 
-            y=closing_prices, 
+            x=merged_future_dates[i-1:i+1],
+            y=merged_smoothed_predictions[i-1:i+1],
             mode='lines',
-            name='Historical Price (120 Days)',
-            line=dict(color='blue', width=2),
+            line=dict(color=color, width=3, dash='dot'),
+            showlegend=False,   
+            hoverinfo='skip'
         ))
-
- 
     fig.add_trace(go.Scatter(
-        x=merged_future_dates, 
-        y=merged_smoothed_predictions, 
+        x=historical_120_days.index,
+        y=closing_prices,
         mode='lines',
-        name=f'Predicted Price ({len(merged_smoothed_predictions)} Days)',
-        line=dict(color='orange', width=2),
+        line=dict(color='rgba(0,0,0,0)', width=0),
+        name='── Historical Price (120 Days)',
+        hovertemplate="<b>────────────</b><br><b>Historical Price:</b> %{y}<extra></extra>",
+        showlegend=True
     ))
-
-   
+    fig.add_trace(go.Scatter(
+        x=merged_future_dates,
+        y=merged_smoothed_predictions,
+        mode='lines',
+        line=dict(color='rgba(0,0,0,0)', width=0), 
+        name=f'------ Predicted Price ({len(merged_smoothed_predictions)} Days)',
+        hovertemplate="<b>--------------------------</b><br><b>Predicted Price:</b> %{y}<extra></extra>",
+        showlegend=True
+    ))
     fig.update_layout(
         title=f"Stock Price Prediction for {symbol}",
         xaxis_title="Date",
         yaxis_title="Price",
-        xaxis=dict(tickangle=-45),
-        hovermode="x unified",
+        xaxis=dict(tickangle=-45, title_font=dict(size=24), tickfont=dict(size=18)),
+        yaxis=dict(title_font=dict(size=24), tickfont=dict(size=18)),
+        hovermode="x unified",  
         width=1500,
-        height=700
+        height=700,
+        font=dict(size=24),
+        title_font=dict(size=24)
     )
     st.plotly_chart(fig, use_container_width=True)
-    sip_calculator(symbol)
+    st.write("\n\n")
+    summaryprint(company_name, combined_predictions, symbol,True)
 
-def sip_calculator(symbol):
-    st.subheader("SIP Calculator")
-
-    start_date = "2023-01-01"
-    end_date =  "2024-11-30"
-    stock_data = yf.download(symbol, start=start_date, end=end_date)
-    if stock_data.empty:
-        st.warning("No data available for the selected symbol and date range.")
-        return
-    sip_data = stock_data.iloc[-252:]
-    monthly_investment = 1000 
-    st.write(f"Monthly Investment Amount (₹): {monthly_investment}")
-    initial_price = sip_data['Close'].iloc[0]  
-    final_price = sip_data['Close'].iloc[-1]  
-    annual_return = ((final_price - initial_price) / initial_price) * 100
-    
-    if isinstance(annual_return, pd.Series):
-        annual_return = annual_return.values[0]  
-
-    st.write(f"Estimated Annual Return: {annual_return:.2f}%")
-
-    years = 3  
-    p = float(monthly_investment)
-    r = float(annual_return)
-    t = float(years)
-    r = r / (12 * 100)  
-    n = t * 12 
-
-    fv = p * (((1 + r)**n - 1) / r) * (1 + r)
-    st.write(f"Future Value after {years} years based on predicted prices: ₹{fv:.2f}")

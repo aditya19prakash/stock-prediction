@@ -2,7 +2,8 @@ import wikipediaapi
 import re
 import streamlit as st
 import yahooquery as yq
-
+import yfinance as yf
+import pandas as pd
 def get_symbol_from_name(company_name):
     try:
         search_result = yq.search(company_name)
@@ -15,6 +16,42 @@ def get_symbol_from_name(company_name):
     except Exception as e:
         st.error(f"Error: {e}")
         return None, 'N/A'
+def sip_calculator(symbol):
+    
+    st.subheader("SIP Calculator")
+
+    start_date = "2023-01-01"
+    end_date =  "2024-11-30"
+    stock_data = yf.download(symbol, start=start_date, end=end_date)
+    if stock_data.empty:
+        st.warning("No data available for the selected symbol and date range.")
+        return
+    sip_data = stock_data.iloc[-252:]
+    monthly_investment = 1000 
+    
+    initial_price = sip_data['Close'].iloc[0]  
+    final_price = sip_data['Close'].iloc[-1]  
+    annual_return = ((final_price - initial_price) / initial_price) * 100
+    
+    if isinstance(annual_return, pd.Series):
+        annual_return = annual_return.values[0]  
+
+  
+
+    years = 3  
+    p = float(monthly_investment)
+    r = float(annual_return)
+    t = float(years)
+    r = r / (12 * 100)  
+    n = t * 12 
+
+    fv = p * (((1 + r)**n - 1) / r) * (1 + r)
+    st.markdown(
+        f"<div style='font-size: 22px; color: white; background-color: #0e1117; padding: 10px; border-radius: 5px; border: 2px solid white; display: flex; flex-wrap: wrap;'>"
+        f"Monthly Investment Amount (₹): {monthly_investment}<br>Estimated Annual Return: {annual_return:.2f}%<br>Future Value after {years} years based on predicted prices: ₹{fv:.2f}"
+        f"</div>", 
+        unsafe_allow_html=True
+    )
 
 def get_additional_stock_info(symbol):
     try:
@@ -92,34 +129,25 @@ def display_additional_stock_info(info):
 
 def get_wikipedia_summary(full_name):
     try:
-        print(f"Searching Wikipedia for: {full_name}")
-        
-        # Set a custom user agent
         wiki_wiki = wikipediaapi.Wikipedia(
             language='en',
             extract_format=wikipediaapi.ExtractFormat.WIKI,
             user_agent="stock-prediction/1.0 (adyprakash19@gmail.com)"
         )
-        
         page = wiki_wiki.page(full_name)
-
         if not page.exists():
-            return "No Wikipedia page found for the company name."
-
-        # Get the summary of the page
-        summary = page.summary[:60000]  # Limit to 2000 characters
-
-        # Clean up the summary
-        summary = re.sub(r'\s+', ' ', summary).strip()  # Remove extra whitespaces
-        summary = re.sub(r'==\s*History\s*==', '', summary)  # Remove 'History' section
-        summary = re.sub(r'===\s*.*?\s*===', '', summary)  # Remove subheadings
-        summary = re.sub(r'\bnudity\b|\bporn\b|\bsex\b|\badult\b', '', summary, flags=re.IGNORECASE)  # Remove adult content terms
+            return "No Summary found for the company name."
+        summary = page.summary[:60000] 
+        summary = re.sub(r'\s+', ' ', summary).strip() 
+        summary = re.sub(r'==\s*History\s*==', '', summary)
+        summary = re.sub(r'===\s*.*?\s*===', '', summary) 
+        summary = re.sub(r'\bnudity\b|\bporn\b|\bsex\b|\badult\b', '', summary, flags=re.IGNORECASE)
         return summary
     except Exception as e:
         return f"Error: {e}"
 
 """ MAIN FUNCTION  """
-def summaryprint(company_name, combined_predictions, symbol):
+def summaryprint(company_name, combined_predictions, symbol,signal):
     for days in [30, 60, 90, 120]:
         if len(combined_predictions) > days:
             st.markdown(
@@ -128,6 +156,8 @@ def summaryprint(company_name, combined_predictions, symbol):
                 f"</div>", 
                 unsafe_allow_html=True
             )
+    if signal:
+        sip_calculator(symbol)
     additional_info = get_additional_stock_info(symbol)
     display_additional_stock_info(additional_info)
     summary = get_wikipedia_summary(additional_info.get('shortname', company_name))

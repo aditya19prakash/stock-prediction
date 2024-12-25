@@ -244,4 +244,4 @@ def plot_predictions(historical_data, combined_predictions, symbol, company_name
     )
     st.plotly_chart(fig, use_container_width=True)
     st.write("\n\n")
-    summaryprint(company_name, combined_predictions, symbol)
+    summaryprint(company_name, combined_predictions, symbol,False)
