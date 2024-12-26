@@ -4,6 +4,7 @@ import streamlit as st
 import yahooquery as yq
 import yfinance as yf
 import pandas as pd
+from utility import check_internet_connection, format_number
 def get_symbol_from_name(company_name):
     try:
         search_result = yq.search(company_name)
@@ -16,40 +17,50 @@ def get_symbol_from_name(company_name):
     except Exception as e:
         st.error(f"Error: {e}")
         return None, 'N/A'
+
 def sip_calculator(symbol):
-    
     st.subheader("SIP Calculator")
 
     start_date = "2023-01-01"
-    end_date =  "2024-11-30"
+    end_date = "2024-11-30"
     stock_data = yf.download(symbol, start=start_date, end=end_date)
     if stock_data.empty:
         st.warning("No data available for the selected symbol and date range.")
         return
     sip_data = stock_data.iloc[-252:]
-    monthly_investment = 1000 
-    
-    initial_price = sip_data['Close'].iloc[0]  
-    final_price = sip_data['Close'].iloc[-1]  
+
+    if 'monthly_investment' not in st.session_state:
+        st.session_state['monthly_investment'] = 1000
+
+    monthly_investment = st.slider(
+        "Monthly Investment Amount (₹)",
+        min_value=500,
+        max_value=10000,
+        step=500,
+        key='monthly_investment'
+    )
+
+    initial_price = sip_data['Close'].iloc[0]
+    final_price = sip_data['Close'].iloc[-1]
     annual_return = ((final_price - initial_price) / initial_price) * 100
-    
+
     if isinstance(annual_return, pd.Series):
-        annual_return = annual_return.values[0]  
+        annual_return = annual_return.values[0]
 
-  
-
-    years = 3  
+    years = 3
     p = float(monthly_investment)
     r = float(annual_return)
     t = float(years)
-    r = r / (12 * 100)  
-    n = t * 12 
+    r = r / (12 * 100)
+    n = t * 12
 
     fv = p * (((1 + r)**n - 1) / r) * (1 + r)
+    
+    formatted_Return = format_number(fv)
     st.markdown(
         f"<div style='font-size: 22px; color: white; background-color: #0e1117; padding: 10px; border-radius: 5px; border: 2px solid white; display: flex; flex-wrap: wrap;'>"
-        f"Monthly Investment Amount (₹): {monthly_investment}<br>Estimated Annual Return: {annual_return:.2f}%<br>Future Value after {years} years based on predicted prices: ₹{fv:.2f}"
-        f"</div>", 
+        f"Monthly Investment Amount (₹): {monthly_investment}<br>Estimated Annual Return: {annual_return:.2f}%<br>Future Value after {years} years based on predicted prices: ₹{formatted_Return}"
+        f"</div>",
         unsafe_allow_html=True
     )
 
@@ -147,7 +158,26 @@ def get_wikipedia_summary(full_name):
         return f"Error: {e}"
 
 """ MAIN FUNCTION  """
-def summaryprint(company_name, combined_predictions, symbol,signal):
+def summaryprint(company_name, combined_predictions, symbol, signal):
+    if not check_internet_connection():
+            st.error("No internet connection. Please check your connection and try again.")
+            return
+    if 'summary_cache' not in st.session_state:
+        st.session_state['summary_cache'] = {}
+
+    if company_name in st.session_state['summary_cache']:
+        cached_data = st.session_state['summary_cache'][company_name]
+        combined_predictions = cached_data['combined_predictions']
+        additional_info = cached_data['additional_info']
+        summary = cached_data['summary']
+    else:
+        additional_info = get_additional_stock_info(symbol)
+        summary = get_wikipedia_summary(additional_info.get('shortname', company_name))
+        st.session_state['summary_cache'][company_name] = {
+            'combined_predictions': combined_predictions,
+            'additional_info': additional_info,
+            'summary': summary
+        }
     for days in [30, 60, 90, 120]:
         if len(combined_predictions) > days:
             st.markdown(
@@ -156,11 +186,12 @@ def summaryprint(company_name, combined_predictions, symbol,signal):
                 f"</div>", 
                 unsafe_allow_html=True
             )
+
     if signal:
         sip_calculator(symbol)
-    additional_info = get_additional_stock_info(symbol)
+
     display_additional_stock_info(additional_info)
-    summary = get_wikipedia_summary(additional_info.get('shortname', company_name))
+
     if True:
         st.markdown("<h2 style='font-size: 24px; color: white;'>Company Summary:</h2>", unsafe_allow_html=True)
         st.markdown(
