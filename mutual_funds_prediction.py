@@ -6,14 +6,13 @@ import pandas as pd
 from tensorflow.keras.models import Sequential # type: ignore
 from tensorflow.keras.layers import LSTM, Dense, Dropout, Input # type: ignore
 from tensorflow.keras.callbacks import EarlyStopping # type: ignore
-from sklearn.preprocessing import MinMaxScaler
 from prophet import Prophet
 import concurrent.futures
 import time
 from plot_prediction import plot_predictions
 import logging
 from utility import check_internet_connection
-
+from data_cleaning import data_cleaning
 
 logging.getLogger('tensorflow').setLevel(logging.ERROR)
 if 'predictions_cache' not in st.session_state:
@@ -30,7 +29,6 @@ def get_symbol_from_name(company_name):
     except Exception as e:
         st.error(f"Error: {e}")
         return None
-
 
 def build_lstm_model(input_shape):
     model = Sequential([
@@ -79,15 +77,6 @@ def lstm_prediction(scaled_data, scaler, training_data_len):
     predictions = lstm_model.predict(x_test[-120:])
     return scaler.inverse_transform(predictions).flatten()
 
-def detect_outliers(data):
-    q1 = np.percentile(data, 25)
-    q3 = np.percentile(data, 75)
-    iqr = q3 - q1
-    lower_bound = q1 - 1.5 * iqr
-    upper_bound = q3 + 1.5 * iqr
-    return data[(data < lower_bound) | (data > upper_bound)]
-
-
 def display_mutual_funds_prediction():
     if 'predictions_cache' not in st.session_state:
         st.session_state['predictions_cache'] = {}
@@ -109,27 +98,12 @@ def display_mutual_funds_prediction():
             st.error("No internet connection. Please check your connection and try again.")
             return
         with st.spinner("Downloading data..."):
-            stock_data = yf.download(symbol, start=start_date, end=end_date)
-            if len(stock_data) < 120:
-               st.write("Not enough data available for this symbol. At least 120 rows are required.")
-               return
-            time.sleep(1)
+            stock_data = yf.download(symbol, start="2023-01-01", end="2025-12-12")
             progress_bar.progress(0.25)
         with st.spinner("Cleaning data..."):
-            time.sleep(1)
-            if stock_data.isnull().values.any():
-              stock_data = stock_data.dropna()
-              if stock_data.empty:
-                st.error("After cleaning, no data is available for this symbol.")
-                return
-            outliers = detect_outliers(stock_data['Close'])
-            if not outliers.empty:
-              stock_data = stock_data[~stock_data['Close'].isin(outliers)]
-            data = stock_data['Close'].values.reshape(-1, 1)     
-            scaler = MinMaxScaler(feature_range=(0, 1))
-            scaled_data = scaler.fit_transform(data)
-            training_data_len = int(np.ceil(0.8 * len(scaled_data)))
-            progress_bar.progress(0.45)
+         time.sleep(1)
+         scaled_data, scaler, training_data_len = data_cleaning(stock_data)
+         progress_bar.progress(0.5)
 
         with st.spinner("Training models..."):
             with concurrent.futures.ThreadPoolExecutor() as executor:
