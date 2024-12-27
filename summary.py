@@ -191,10 +191,13 @@ def summaryprint(company_name, combined_predictions, symbol, signal):
         sip_calculator(symbol)
 
     display_additional_stock_info(additional_info)
-
-    if True:
-        st.markdown("<h2 style='font-size: 24px; color: white;'>Company Summary:</h2>", unsafe_allow_html=True)
-        st.markdown(
-            f"<div style='font-size: 18px; color: white; background-color: #0e1117; padding: 10px; border-radius: 5px; border: 2px solid white;'>{summary}</div>",
-            unsafe_allow_html=True
-        )
+    st.markdown("<h2 style='font-size: 24px; color: white;'>Company Summary:</h2>", unsafe_allow_html=True)
+    st.markdown( f"<div style='font-size: 18px; color: white; background-color: #0e1117; padding: 10px; border-radius: 5px; border: 2px solid white;'>{summary}</div>",
+    unsafe_allow_html=True)
+    st.markdown(
+        "<div style='font-size: 18px; color: red; background-color: #0e1117; padding: 10px; border-radius: 5px; border: 2px solid red; margin-top: 20px;'>"
+        "<b>⚠️ Disclaimer:</b> Stock market investments carry risks. Past performance does not guarantee future returns. "
+        "Please conduct thorough research and consider consulting with a financial advisor before making investment decisions."
+        "</div>",
+        unsafe_allow_html=True
+    )
