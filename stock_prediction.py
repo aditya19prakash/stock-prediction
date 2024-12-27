@@ -20,6 +20,9 @@ if 'predictions_cache' not in st.session_state:
 
 def get_symbol_from_name(company_name):
     try:
+        if not check_internet_connection():
+            st.error("No internet connection. Please check your connection and try again.")
+            return None
         search_result = yq.search(company_name)
         if 'quotes' in search_result:
             for quote in search_result['quotes']:
@@ -103,7 +106,7 @@ def display_stock_prediction():
         with st.spinner("Cleaning data..."):
          time.sleep(1)
          scaled_data, scaler, training_data_len = data_cleaning(stock_data)
-         progress_bar.progress(0.5)
+         progress_bar.progress(0.35)
 
         with st.spinner("Training models..."):
             with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -125,8 +128,8 @@ def display_stock_prediction():
                 'historical_data': stock_data[-120:],
                 'combined_predictions': combined_predictions
             }
-            plot_predictions(stock_data[-120:], combined_predictions, symbol, company_name,False)
-            progress_bar.progress(1.0)
+        plot_predictions(stock_data[-120:], combined_predictions, symbol, company_name,False)
+        progress_bar.progress(1.0)
 
 
 
