@@ -10,8 +10,6 @@ import requests
 from bs4 import BeautifulSoup
 import logging
 import os
-
-# Ensure the log directory exists
 log_dir = 'log'
 os.makedirs(log_dir, exist_ok=True)
 
@@ -271,7 +269,7 @@ def summaryprint(company_name, combined_predictions, symbol, signal):
               color = "#39FF14" if percent_change > 0 else "#FF073A"
               icon = "📉" if percent_change < 0 else "📈"
               st.markdown(
-                  f"<div style='font-size: 20px; color: white; background-color: #0e1117; padding: 15px; border-radius: 10px; border: 2px solid white; margin-bottom: 10px;'>"
+                  f"<div style='font-size: 22px; color: white; background-color: #0e1117; padding: 15px; border-radius: 10px; border: 2px solid white; margin-bottom: 10px;'>"
                   f"<b>After {days} days, the stock listing price will be:</b> <span style='color: #FFFF33;'>₹{int(future_price)}</span><br>"
                   f"<b>{icon} Percentage Change:</b> <span style='color: {color};'>{percent_change:.2f}%</span>"
                   f"</div>", 
