@@ -8,7 +8,7 @@ logging.basicConfig(filename='app.log', level=logging.ERROR,
                     format='%(asctime)s:%(levelname)s:%(message)s')
 
 st.set_page_config(
-    page_title="Stock and Mutual Prediction",
+    page_title="Predictify",
     layout="wide",
     page_icon="project_logo.png"
 )
