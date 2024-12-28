@@ -11,7 +11,7 @@ import concurrent.futures
 import time
 from data_cleaning import data_cleaning
 import logging
-from utility import check_internet_connection
+from utils import check_internet_connection
 from plot_prediction import plot_predictions
 import os
 

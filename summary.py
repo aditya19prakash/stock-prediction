@@ -4,7 +4,7 @@ import streamlit as st
 import yahooquery as yq
 import yfinance as yf
 import pandas as pd
-from utility import check_internet_connection, format_number
+from utils import check_internet_connection, format_number
 from googlesearch import search
 import requests
 from bs4 import BeautifulSoup

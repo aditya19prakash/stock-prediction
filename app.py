@@ -2,7 +2,7 @@ import streamlit as st
 import logging
 from stock_prediction import display_stock_prediction
 from mutual_funds_prediction import display_mutual_funds_prediction
-from utility import check_internet_connection
+from utils import check_internet_connection
 
 logging.basicConfig(filename='app.log', level=logging.ERROR, 
                     format='%(asctime)s:%(levelname)s:%(message)s')
@@ -10,7 +10,7 @@ logging.basicConfig(filename='app.log', level=logging.ERROR,
 st.set_page_config(
     page_title="Stock and Mutual Prediction",
     layout="wide",
-    page_icon="logo1.png"
+    page_icon="project_logo.png"
 )
 
 st.markdown(
