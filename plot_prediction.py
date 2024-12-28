@@ -6,8 +6,13 @@ import plotly.graph_objects as go
 import streamlit as st
 import numpy as np
 import pandas as pd
+import os
 
-logging.basicConfig(filename='error.log', level=logging.ERROR)
+# Ensure the log directory exists
+log_dir = 'log'
+os.makedirs(log_dir, exist_ok=True)
+
+logging.basicConfig(filename=os.path.join(log_dir, 'error.log'), level=logging.ERROR)
 
 def smooth_predictions(predictions, sigma=2):
     try:

@@ -9,7 +9,13 @@ from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
 import logging
-logging.basicConfig(filename='error_log.log', level=logging.ERROR, 
+import os
+
+# Ensure the log directory exists
+log_dir = 'log'
+os.makedirs(log_dir, exist_ok=True)
+
+logging.basicConfig(filename=os.path.join(log_dir, 'error_log.log'), level=logging.ERROR, 
                     format='%(asctime)s:%(levelname)s:%(message)s')
 
 def get_symbol_from_name(company_name):
@@ -259,12 +265,18 @@ def summaryprint(company_name, combined_predictions, symbol, signal):
             }
         for days in [30, 60, 90, 120]:
             if len(combined_predictions) > days:
-                st.markdown(
-                    f"<div style='font-size: 20px; color: white; background-color: #0e1117; padding: 15px; border-radius: 10px; border: 2px solid white; margin-bottom: 10px;'>"
-                    f"<b>After {days} days, the stock listing price will be:</b> <span style='color: #FFD700;'>[ {int(combined_predictions[days])} ]</span>"
-                    f"</div>", 
-                    unsafe_allow_html=True
-                )
+              initial_price = combined_predictions[0]
+              future_price = combined_predictions[days]
+              percent_change = ((future_price - initial_price) / initial_price) * 100
+              color = "#39FF14" if percent_change > 0 else "#FF073A"
+              icon = "📉" if percent_change < 0 else "📈"
+              st.markdown(
+                  f"<div style='font-size: 20px; color: white; background-color: #0e1117; padding: 15px; border-radius: 10px; border: 2px solid white; margin-bottom: 10px;'>"
+                  f"<b>After {days} days, the stock listing price will be:</b> <span style='color: #FFFF33;'>₹{int(future_price)}</span><br>"
+                  f"<b>{icon} Percentage Change:</b> <span style='color: {color};'>{percent_change:.2f}%</span>"
+                  f"</div>", 
+                  unsafe_allow_html=True
+              )
 
         if signal:
             sip_calculator(symbol)

@@ -1,7 +1,13 @@
 import socket
 import logging
+import os
 
-logging.basicConfig(filename='error.log', level=logging.ERROR, 
+# Ensure the log directory exists
+log_directory = 'log'
+if not os.path.exists(log_directory):
+    os.makedirs(log_directory)
+
+logging.basicConfig(filename=os.path.join(log_directory, 'error.log'), level=logging.ERROR, 
                     format='%(asctime)s:%(levelname)s:%(message)s')
 
 def check_internet_connection():

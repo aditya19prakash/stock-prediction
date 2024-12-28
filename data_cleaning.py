@@ -3,8 +3,10 @@ import streamlit as st
 import pandas as pd
 import logging
 from sklearn.preprocessing import MinMaxScaler
+import os
+os.makedirs('log', exist_ok=True)
 
-logging.basicConfig(filename='data_cleaning.log', level=logging.ERROR, 
+logging.basicConfig(filename='log/data_cleaning.log', level=logging.ERROR, 
                     format='%(asctime)s:%(levelname)s:%(message)s')
 
 def detect_outliers(data):

@@ -13,8 +13,10 @@ from plot_prediction import plot_predictions
 import logging
 from utility import check_internet_connection
 from data_cleaning import data_cleaning
+import os
+os.makedirs('log', exist_ok=True)
 
-logging.basicConfig(filename='error.log', level=logging.ERROR)
+logging.basicConfig(filename='log/error.log', level=logging.ERROR)
 logging.getLogger('tensorflow').setLevel(logging.ERROR)
 
 if 'predictions_cache' not in st.session_state:
