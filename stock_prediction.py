@@ -15,11 +15,9 @@ from utils import check_internet_connection
 from plot_prediction import plot_predictions
 import os
 
-# Create log directory if it doesn't exist
 if not os.path.exists('log'):
     os.makedirs('log')
 
-# Configure logging
 logging.basicConfig(filename='log/stock_prediction.log', level=logging.ERROR,
                     format='%(asctime)s:%(levelname)s:%(message)s')
 logging.getLogger('tensorflow').setLevel(logging.ERROR)

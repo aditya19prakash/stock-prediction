@@ -47,7 +47,7 @@ try:
             if not check_internet_connection():
              st.error("No internet connection. Please check your connection and try again.")
             else:
-             display_stock_prediction()  # Calls the function from stock_prediction.py
+             display_stock_prediction() 
         except Exception as e:
             st.error(f"Error: {e}")
             logging.error(f"Error in display_stock_prediction: {e}")
