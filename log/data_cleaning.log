@@ -1,0 +1,59 @@
+2024-12-31 23:41:54,432:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2024-12-31 23:41:54,515:DEBUG:Adding TBB (C:\Users\adypr\AppData\Local\Programs\Python\Python311\Lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2024-12-31 23:41:54,535:INFO:Disabling yearly seasonality. Run prophet with yearly_seasonality=True to override this.
+2024-12-31 23:41:54,535:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2024-12-31 23:41:54,557:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmp3njeky1m\ogaj11z3.json
+2024-12-31 23:41:54,574:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmp3njeky1m\wo31el11.json
+2024-12-31 23:41:54,581:DEBUG:idx 0
+2024-12-31 23:41:54,581:DEBUG:running CmdStan, num_threads: None
+2024-12-31 23:41:54,582:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=1672', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmp3njeky1m\\ogaj11z3.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmp3njeky1m\\wo31el11.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmp3njeky1m\\prophet_modelt080tj0o\\prophet_model-20241231234154.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2024-12-31 23:41:54,582:INFO:Chain [1] start processing
+2024-12-31 23:41:54,845:INFO:Chain [1] done processing
+2025-01-01 17:41:53,370:ERROR:Error in check_internet_connection: [Errno 11001] getaddrinfo failed
+2025-01-01 17:41:54,923:ERROR:Error in check_internet_connection: [Errno 11001] getaddrinfo failed
+2025-01-04 03:31:17,932:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-01-04 03:31:18,014:DEBUG:Adding TBB (C:\Users\adypr\AppData\Local\Programs\Python\Python311\Lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2025-01-04 03:31:18,035:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2025-01-04 03:31:18,061:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpvul6km3y\tomkzsqk.json
+2025-01-04 03:31:18,104:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpvul6km3y\qp3njqcu.json
+2025-01-04 03:31:18,108:DEBUG:idx 0
+2025-01-04 03:31:18,109:DEBUG:running CmdStan, num_threads: None
+2025-01-04 03:31:18,111:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=70842', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpvul6km3y\\tomkzsqk.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpvul6km3y\\qp3njqcu.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpvul6km3y\\prophet_modelltttr_qc\\prophet_model-20250104033118.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-01-04 03:31:18,111:INFO:Chain [1] start processing
+2025-01-04 03:31:18,384:INFO:Chain [1] done processing
+2025-01-04 22:56:39,087:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-01-04 22:56:39,168:DEBUG:Adding TBB (C:\Users\adypr\AppData\Local\Programs\Python\Python311\Lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2025-01-04 22:56:39,184:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2025-01-04 22:56:39,209:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpw819sdt8\pfpdhk45.json
+2025-01-04 22:56:39,257:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpw819sdt8\8cnqna3l.json
+2025-01-04 22:56:39,262:DEBUG:idx 0
+2025-01-04 22:56:39,264:DEBUG:running CmdStan, num_threads: None
+2025-01-04 22:56:39,264:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=55781', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpw819sdt8\\pfpdhk45.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpw819sdt8\\8cnqna3l.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpw819sdt8\\prophet_model1iy8bxyh\\prophet_model-20250104225639.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-01-04 22:56:39,264:INFO:Chain [1] start processing
+2025-01-04 22:56:39,544:INFO:Chain [1] done processing
+2025-01-04 22:59:44,512:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-01-04 22:59:44,608:DEBUG:TBB already found in load path
+2025-01-04 22:59:44,614:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2025-01-04 22:59:44,633:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpw819sdt8\mr4hqeo1.json
+2025-01-04 22:59:44,683:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpw819sdt8\7d91bl62.json
+2025-01-04 22:59:44,686:DEBUG:idx 0
+2025-01-04 22:59:44,688:DEBUG:running CmdStan, num_threads: None
+2025-01-04 22:59:44,688:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=69821', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpw819sdt8\\mr4hqeo1.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpw819sdt8\\7d91bl62.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpw819sdt8\\prophet_modelaxk0ezkg\\prophet_model-20250104225944.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-01-04 22:59:44,688:INFO:Chain [1] start processing
+2025-01-04 22:59:44,880:INFO:Chain [1] done processing
+2025-01-04 23:01:20,137:ERROR:Error fetching news from https://www.nseindia.com/get-quotes/equity?symbol=ULTRACEMCO: HTTPSConnectionPool(host='www.nseindia.com', port=443): Read timed out. (read timeout=5)
+2025-01-10 17:26:34,607:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-01-10 17:26:34,671:DEBUG:Adding TBB (C:\Users\adypr\AppData\Local\Programs\Python\Python311\Lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2025-01-10 17:26:34,686:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2025-01-10 17:26:34,706:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpclfpvhdt\tenqnyp_.json
+2025-01-10 17:26:34,745:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpclfpvhdt\coixkooo.json
+2025-01-10 17:26:34,750:DEBUG:idx 0
+2025-01-10 17:26:34,750:DEBUG:running CmdStan, num_threads: None
+2025-01-10 17:26:34,750:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=55773', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpclfpvhdt\\tenqnyp_.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpclfpvhdt\\coixkooo.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpclfpvhdt\\prophet_modellt3uz5p5\\prophet_model-20250110172634.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-01-10 17:26:34,750:INFO:Chain [1] start processing
+2025-01-10 17:26:35,038:INFO:Chain [1] done processing
