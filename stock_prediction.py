@@ -17,11 +17,9 @@ import os
 
 if not os.path.exists('log'):
     os.makedirs('log')
-
 logging.basicConfig(filename='log/stock_prediction.log', level=logging.ERROR,
                     format='%(asctime)s:%(levelname)s:%(message)s')
 logging.getLogger('tensorflow').setLevel(logging.ERROR)
-
 if 'predictions_cache' not in st.session_state:
     st.session_state['predictions_cache'] = {}
 
