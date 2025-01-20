@@ -113,3 +113,60 @@ cwd: None
 2025-01-11 13:41:17,841:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=76737', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpxnal72in\\b52wi1q_.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpxnal72in\\qcu8qfa8.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpxnal72in\\prophet_model7bd03nfn\\prophet_model-20250111134117.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
 2025-01-11 13:41:17,841:INFO:Chain [1] start processing
 2025-01-11 13:41:17,973:INFO:Chain [1] done processing
+2025-01-11 14:59:05,083:ERROR:Error in check_internet_connection: [Errno 11001] getaddrinfo failed
+2025-01-11 14:59:37,672:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-01-11 14:59:37,787:DEBUG:Adding TBB (C:\Users\adypr\AppData\Local\Programs\Python\Python311\Lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2025-01-11 14:59:37,800:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2025-01-11 14:59:37,830:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpddbty036\l5htwsge.json
+2025-01-11 14:59:37,881:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpddbty036\48_k8fll.json
+2025-01-11 14:59:37,885:DEBUG:idx 0
+2025-01-11 14:59:37,885:DEBUG:running CmdStan, num_threads: None
+2025-01-11 14:59:37,885:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=70774', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\l5htwsge.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\48_k8fll.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\prophet_modelus2nn43q\\prophet_model-20250111145937.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-01-11 14:59:37,887:INFO:Chain [1] start processing
+2025-01-11 14:59:38,316:INFO:Chain [1] done processing
+2025-01-11 15:03:08,018:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-01-11 15:03:08,102:DEBUG:TBB already found in load path
+2025-01-11 15:03:08,109:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2025-01-11 15:03:08,128:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpddbty036\rrh796x1.json
+2025-01-11 15:03:08,181:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpddbty036\089br1dj.json
+2025-01-11 15:03:08,185:DEBUG:idx 0
+2025-01-11 15:03:08,185:DEBUG:running CmdStan, num_threads: None
+2025-01-11 15:03:08,185:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=94869', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\rrh796x1.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\089br1dj.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\prophet_modell_4xm4fa\\prophet_model-20250111150308.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-01-11 15:03:08,185:INFO:Chain [1] start processing
+2025-01-11 15:03:08,309:INFO:Chain [1] done processing
+2025-01-11 15:17:49,702:ERROR:Error in check_internet_connection: [Errno 11001] getaddrinfo failed
+2025-01-11 15:17:50,347:ERROR:Error in lstm_prediction: 'NoneType' object has no attribute 'pop'
+2025-01-13 17:17:38,754:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-01-13 17:17:38,835:DEBUG:TBB already found in load path
+2025-01-13 17:17:38,841:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2025-01-13 17:17:38,858:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpddbty036\fiip77pr.json
+2025-01-13 17:17:38,914:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpddbty036\gjjqlusx.json
+2025-01-13 17:17:38,917:DEBUG:idx 0
+2025-01-13 17:17:38,917:DEBUG:running CmdStan, num_threads: None
+2025-01-13 17:17:38,919:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=74055', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\fiip77pr.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\gjjqlusx.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\prophet_modellytrh43r\\prophet_model-20250113171738.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-01-13 17:17:38,919:INFO:Chain [1] start processing
+2025-01-13 17:17:39,260:INFO:Chain [1] done processing
+2025-01-13 17:24:21,412:ERROR:Error in plot_predictions: NDFrame.astype() missing 1 required positional argument: 'dtype'
+2025-01-13 17:28:54,496:ERROR:Error in plot_predictions: cannot access local variable 'closing_prices' where it is not associated with a value
+2025-01-13 17:29:27,519:ERROR:Error in plot_predictions: cannot access local variable 'closing_prices' where it is not associated with a value
+2025-01-13 17:29:41,355:ERROR:Error in plot_predictions: cannot access local variable 'closing_prices' where it is not associated with a value
+2025-01-13 17:30:11,104:ERROR:Error in plot_predictions: 'Close'
+2025-01-13 17:32:06,800:ERROR:Error in plot_predictions: only integers, slices (`:`), ellipsis (`...`), numpy.newaxis (`None`) and integer or boolean arrays are valid indices
+2025-01-13 17:36:07,954:ERROR:Error in plot_predictions: cannot convert the series to <class 'int'>
+2025-01-13 17:37:09,910:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-01-13 17:37:09,981:DEBUG:TBB already found in load path
+2025-01-13 17:37:09,985:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2025-01-13 17:37:10,001:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpddbty036\f5gkfqle.json
+2025-01-13 17:37:10,043:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpddbty036\nyz221hg.json
+2025-01-13 17:37:10,045:DEBUG:idx 0
+2025-01-13 17:37:10,046:DEBUG:running CmdStan, num_threads: None
+2025-01-13 17:37:10,047:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=73256', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\f5gkfqle.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\nyz221hg.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpddbty036\\prophet_modelhwtwp8au\\prophet_model-20250113173710.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-01-13 17:37:10,047:INFO:Chain [1] start processing
+2025-01-13 17:37:10,364:INFO:Chain [1] done processing
+2025-01-13 17:37:51,233:ERROR:Error in plot_predictions: cannot convert the series to <class 'int'>
+2025-01-13 17:41:11,382:ERROR:Error in plot_predictions: all the input arrays must have same number of dimensions, but the array at index 0 has 2 dimension(s) and the array at index 1 has 1 dimension(s)
+2025-01-13 17:43:19,745:ERROR:Error in plot_predictions: cannot access local variable 'closing_prices' where it is not associated with a value

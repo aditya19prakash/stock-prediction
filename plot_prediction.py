@@ -60,7 +60,12 @@ def plot_predictions(historical_data, combined_predictions, symbol, company_name
             st.warning("Length mismatch: Future dates vs. Predictions")
             return
         fig = go.Figure()
+        historical_120_days["Close"] = historical_120_days["Close"].astype(int)
+        
+        merged_smoothed_predictions=merged_smoothed_predictions.astype(int)
         closing_prices = historical_120_days['Close'].squeeze()
+        closing_prices=closing_prices.astype(int)
+        print(closing_prices)
         if historical_120_days is not None:
             for i in range(1, len(historical_120_days)):
                 color = 'red' if closing_prices[i] < closing_prices[i - 1] else 'green'
