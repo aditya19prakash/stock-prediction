@@ -1,56 +1,55 @@
-# Stock Price Prediction using LSTM & Prophet
+# 📈 Stock Prediction using LSTM & Prophet
 
-## 🚀 Overview
-This project is a **Stock Prediction System** that forecasts future stock prices using **Long Short-Term Memory (LSTM)** and **Prophet (Time-Series Forecasting)** models. The application fetches real-time stock data from **Yahoo Finance** and provides users with interactive predictions through a **Streamlit-powered web app**.
+## 🔥 Overview
+This project leverages **LSTM (Long Short-Term Memory) Neural Networks** and **Facebook's Prophet** to predict stock prices. The application is built using **Streamlit** for an interactive UI and integrates **Yahoo Finance** for fetching stock market data.
 
-## 🔥 Features
-- 📊 Fetches real-time stock data from **Yahoo Finance API**
-- 🔮 Predicts stock prices using **LSTM (Deep Learning)** and **Prophet (Time-Series Analysis)**
-- 🚀 Interactive **Streamlit UI** for user-friendly experience
-- ⚡ Efficient **caching** for faster predictions
-- 🛠️ **Robust error handling** and logging for reliability
+## 🛠 Features
+- **Stock Data Retrieval**: Fetch real-time stock market data from **Yahoo Finance**.
+- **Data Cleaning & Processing**: Prepares the dataset for model training.
+- **LSTM-Based Prediction**: Uses deep learning to predict future stock prices.
+- **Prophet-Based Prediction**: Implements time-series forecasting using Prophet.
+- **Interactive UI**: Built using Streamlit for easy user interaction.
+- **Graph Visualization**: Displays historical and predicted stock prices using **Plotly**.
 
-## 🛠️ Tech Stack
-- **Python** (Pandas, NumPy, TensorFlow, Yahoo Finance API)
-- **Machine Learning** (LSTM, Prophet)
-- **Web App** (Streamlit)
-- **Concurrency** (ThreadPoolExecutor for parallel processing)
+## 🚀 Installation & Setup
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/aditya19prakash/stock-prediction.git
+cd stock-prediction
+```
 
-## 📥 Installation
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/yourusername/stock-prediction.git
-   cd stock-prediction
-   ```
-2. **Install dependencies:**
-   ```sh
-   pip install -r requirements.txt
-   ```
-3. **Run the application:**
-   ```sh
-   streamlit run app.py
-   ```
+### 2️⃣ Install Required Libraries
+Ensure you have **Python 3.8+** installed. Then, install dependencies:
+```sh
+pip install -r requirements.txt
+```
 
-## 🔍 Usage
-1. Enter the company name in the **Streamlit UI**.
-2. The system fetches stock data from Yahoo Finance.
-3. Predictions are generated using **LSTM & Prophet** models.
-4. Visualized predictions are displayed on an interactive graph.
+### 3️⃣ Run the Application
+```sh
+streamlit run app.py
+```
 
-## 📌 Example Output
-![Stock Prediction Chart](assets/stock_prediction.png)
+## 📚 Required Libraries
+The following dependencies are used in this project:
+- **Logging** - For error tracking
+- **Streamlit** - Web application framework
+- **yfinance** - Fetches stock market data
+- **yahooquery** - Alternative for stock market data retrieval
+- **NumPy** - Numerical computations
+- **Pandas** - Data manipulation & analysis
+- **TensorFlow** - Deep learning framework
+- **Prophet** - Time-series forecasting
+- **concurrent.futures** - Multi-threading support
+- **wikipedia-api** - Fetches company information
+- **re** - Regular expressions
+- **SciPy** - Scientific computations
+- **Scikit-Learn** - Data preprocessing & scaling
+- **Plotly** - Data visualization
 
-## ⚠️ Troubleshooting
-- If **Yahoo Finance API** is not working, ensure you have an active internet connection.
-- If stock data is missing, check if the stock is listed on NSE (National Stock Exchange).
-- Logging is enabled in `log/stock_prediction.log` for debugging.
-
-## 📜 License
-This project is licensed under the MIT License.
 
 ## 🤝 Connect with Me
-- **LinkedIn**: [Your LinkedIn Profile](www.linkedin.com/in/aditya-prakash-54719b221)
-- **GitHub**: [Your GitHub Profile]((https://github.com/aditya19prakash))
+- **LinkedIn**: [Aditya Prakash](https://www.linkedin.com/in/aditya-prakash-54719b221)
+- **GitHub**: [aditya19prakash](https://github.com/aditya19prakash)
 
 **Star ⭐ the repo if you found it helpful!** 🚀
 
