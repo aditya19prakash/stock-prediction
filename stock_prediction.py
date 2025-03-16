@@ -122,7 +122,6 @@ def display_stock_prediction():
             progress_bar = st.progress(0)
             with st.spinner("Downloading data..."):
                 stock_data = yf.download(symbol, start="2023-01-01", end="2025-12-12")
-                print(len(stock_data))
                 progress_bar.progress(0.25)
             with st.spinner("Cleaning data..."):
                 time.sleep(1)
