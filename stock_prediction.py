@@ -110,7 +110,6 @@ def display_stock_prediction():
                 return
             st.session_state.company_name = company_name
             symbol = get_symbol_from_name(company_name)
-            st.write(symbol)
             if not symbol or symbol == -1:
                 return
             if company_name in st.session_state['predictions_cache']:
