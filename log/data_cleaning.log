@@ -332,3 +332,96 @@ cwd: None
 2025-03-16 20:46:11,684:DEBUG:Adding TBB (C:\Users\adypr\AppData\Local\Programs\Python\Python311\Lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
 2025-03-16 20:46:11,686:ERROR:Error in prophet_prediction: Dataframe has less than 2 non-NaN rows.
 2025-03-16 20:46:11,687:ERROR:Error in display_stock_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:01:33,301:ERROR:
+1 Failed download:
+2025-03-16 21:01:33,301:ERROR:['TCS.NS']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:01:34,313:ERROR:Error in lstm_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:01:34,365:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-03-16 21:01:34,423:DEBUG:Adding TBB (C:\Users\adypr\AppData\Local\Programs\Python\Python311\Lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2025-03-16 21:01:34,424:ERROR:Error in prophet_prediction: Dataframe has less than 2 non-NaN rows.
+2025-03-16 21:01:34,425:ERROR:Error in display_stock_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:02:46,522:ERROR:
+1 Failed download:
+2025-03-16 21:02:46,522:ERROR:['TCS.NS']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:02:47,531:ERROR:Error in lstm_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:02:47,535:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-03-16 21:02:47,594:DEBUG:TBB already found in load path
+2025-03-16 21:02:47,595:ERROR:Error in prophet_prediction: Dataframe has less than 2 non-NaN rows.
+2025-03-16 21:02:47,596:ERROR:Error in display_stock_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:06:09,128:ERROR:
+1 Failed download:
+2025-03-16 21:06:09,128:ERROR:['TCS.NS']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:06:10,136:ERROR:Error in lstm_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:06:10,139:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-03-16 21:06:10,199:DEBUG:TBB already found in load path
+2025-03-16 21:06:10,200:ERROR:Error in prophet_prediction: Dataframe has less than 2 non-NaN rows.
+2025-03-16 21:06:10,201:ERROR:Error in display_stock_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:06:19,779:ERROR:
+1 Failed download:
+2025-03-16 21:06:19,779:ERROR:['TCS.NS']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:06:20,788:ERROR:Error in lstm_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:06:20,792:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-03-16 21:06:20,851:DEBUG:TBB already found in load path
+2025-03-16 21:06:20,852:ERROR:Error in prophet_prediction: Dataframe has less than 2 non-NaN rows.
+2025-03-16 21:06:20,853:ERROR:Error in display_stock_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:08:46,802:ERROR:
+1 Failed download:
+2025-03-16 21:08:46,802:ERROR:['TCS.NS']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:08:46,806:ERROR:Error in fetch_stock_data: No data received from Yahoo Finance.
+2025-03-16 21:10:30,961:ERROR:
+1 Failed download:
+2025-03-16 21:10:30,961:ERROR:['TCS.NS']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:10:31,970:ERROR:Error in lstm_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:10:31,974:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-03-16 21:10:32,034:DEBUG:TBB already found in load path
+2025-03-16 21:10:32,034:ERROR:Error in prophet_prediction: Dataframe has less than 2 non-NaN rows.
+2025-03-16 21:10:32,035:ERROR:Error in display_stock_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:11:16,645:ERROR:
+1 Failed download:
+2025-03-16 21:11:16,645:ERROR:['0P0000YWL0.BO']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:11:17,655:ERROR:Error in lstm_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:11:17,658:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-03-16 21:11:17,718:DEBUG:TBB already found in load path
+2025-03-16 21:11:17,719:ERROR:Error in prophet_prediction: Dataframe has less than 2 non-NaN rows.
+2025-03-16 21:11:17,722:ERROR:Error in display_mutual_funds_prediction: object of type 'NoneType' has no len()
+2025-03-16 21:14:17,732:ERROR:
+1 Failed download:
+2025-03-16 21:14:17,733:ERROR:['0P0000YWL0.BO']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:14:18,743:ERROR:Error in lstm_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:14:18,745:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-03-16 21:14:18,808:DEBUG:TBB already found in load path
+2025-03-16 21:14:18,810:ERROR:Error in prophet_prediction: Dataframe has less than 2 non-NaN rows.
+2025-03-16 21:14:18,813:ERROR:Error in display_mutual_funds_prediction: object of type 'NoneType' has no len()
+2025-03-16 21:14:44,240:ERROR:
+1 Failed download:
+2025-03-16 21:14:44,240:ERROR:['0P0000YWL0.BO']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:14:53,372:ERROR:
+1 Failed download:
+2025-03-16 21:14:53,372:ERROR:['TCS.NS']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:14:54,293:ERROR:
+1 Failed download:
+2025-03-16 21:14:54,293:ERROR:['TCS.NS']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+2025-03-16 21:14:55,301:ERROR:Error in lstm_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:14:55,305:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-03-16 21:14:55,364:DEBUG:TBB already found in load path
+2025-03-16 21:14:55,364:ERROR:Error in prophet_prediction: Dataframe has less than 2 non-NaN rows.
+2025-03-16 21:14:55,366:ERROR:Error in display_stock_prediction: 'NoneType' object is not subscriptable
+2025-03-16 21:18:05,569:DEBUG:cmd: where.exe tbb.dll
+cwd: None
+2025-03-16 21:18:05,628:DEBUG:Adding TBB (C:\Users\adypr\AppData\Local\Programs\Python\Python311\Lib\site-packages\prophet\stan_model\cmdstan-2.33.1\stan\lib\stan_math\lib\tbb) to PATH
+2025-03-16 21:18:05,644:INFO:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+2025-03-16 21:18:05,670:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpvfpwo_0y\ffki81v4.json
+2025-03-16 21:18:05,712:DEBUG:input tempfile: C:\Users\adypr\AppData\Local\Temp\tmpvfpwo_0y\bqhy4ngn.json
+2025-03-16 21:18:05,725:DEBUG:idx 0
+2025-03-16 21:18:05,725:DEBUG:running CmdStan, num_threads: None
+2025-03-16 21:18:05,725:DEBUG:CmdStan args: ['C:\\Users\\adypr\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\prophet\\stan_model\\prophet_model.bin', 'random', 'seed=34636', 'data', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpvfpwo_0y\\ffki81v4.json', 'init=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpvfpwo_0y\\bqhy4ngn.json', 'output', 'file=C:\\Users\\adypr\\AppData\\Local\\Temp\\tmpvfpwo_0y\\prophet_modelokll6gcg\\prophet_model-20250316211805.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-03-16 21:18:05,725:INFO:Chain [1] start processing
+2025-03-16 21:18:06,084:INFO:Chain [1] done processing

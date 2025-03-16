@@ -270,7 +270,7 @@ def summaryprint(company_name, combined_predictions, symbol, signal):
               icon = "📉" if percent_change < 0 else "📈"
               st.markdown(
                   f"<div style='font-size: 22px; color: white; background-color: #0e1117; padding: 15px; border-radius: 10px; border: 2px solid white; margin-bottom: 10px;'>"
-                  f"<b>After {days} days, the stock listing price will be:</b> <span style='color: #FFFF33;'>₹{int(future_price)}</span><br>"
+                  f"<b>After {days} trading days, the stock listing price will be:</b> <span style='color: #FFFF33;'>₹{int(future_price)}</span><br>"
                   f"<b>{icon} Percentage Change:</b> <span style='color: {color};'>{percent_change:.2f}%</span>"
                   f"</div>", 
                   unsafe_allow_html=True

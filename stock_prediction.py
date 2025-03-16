@@ -110,6 +110,7 @@ def display_stock_prediction():
                 return
             st.session_state.company_name = company_name
             symbol = get_symbol_from_name(company_name)
+            st.write(symbol)
             if not symbol or symbol == -1:
                 return
             if company_name in st.session_state['predictions_cache']:
@@ -121,6 +122,7 @@ def display_stock_prediction():
             progress_bar = st.progress(0)
             with st.spinner("Downloading data..."):
                 stock_data = yf.download(symbol, start="2023-01-01", end="2025-12-12")
+                print(len(stock_data))
                 progress_bar.progress(0.25)
             with st.spinner("Cleaning data..."):
                 time.sleep(1)
