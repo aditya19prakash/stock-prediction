@@ -49,8 +49,8 @@ This project is a **Stock Prediction System** that forecasts future stock prices
 This project is licensed under the MIT License.
 
 ## 🤝 Connect with Me
-- **LinkedIn**: [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
-- **GitHub**: [Your GitHub Profile](https://github.com/yourusername)
+- **LinkedIn**: [Your LinkedIn Profile](www.linkedin.com/in/aditya-prakash-54719b221)
+- **GitHub**: [Your GitHub Profile]((https://github.com/aditya19prakash))
 
 **Star ⭐ the repo if you found it helpful!** 🚀
 
