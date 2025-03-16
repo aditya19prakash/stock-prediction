@@ -119,7 +119,7 @@ def plot_predictions(historical_data, combined_predictions, symbol, company_name
         )
         st.plotly_chart(fig, use_container_width=True)
         st.write("\n\n")
-        summaryprint(company_name, combined_predictions, symbol, signal)
+        summaryprint(company_name,  merged_smoothed_predictions, symbol, signal)
     except Exception as e:
         st.error(f"Error: {e}")
         logging.error(f"Error in plot_predictions: {e}")
