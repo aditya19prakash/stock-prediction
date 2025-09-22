@@ -1,4 +1,3 @@
-logging
 streamlit
 yfinance
 yahooquery
@@ -6,9 +5,7 @@ numpy
 pandas
 tensorflow
 prophet
-concurrent.futures
 wikipedia-api
-re
 scipy
 scikit-learn
 plotly
