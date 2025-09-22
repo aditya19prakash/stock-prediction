@@ -9,3 +9,4 @@ wikipedia-api
 scipy
 scikit-learn
 plotly
+google

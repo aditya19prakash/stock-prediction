@@ -1,0 +1,18 @@
+2025-09-22 00:18:57,598:DEBUG:input tempfile: /tmp/tmpirvb7iq1/c0ilo_gf.json
+2025-09-22 00:18:57,707:DEBUG:input tempfile: /tmp/tmpirvb7iq1/6q87_vdn.json
+2025-09-22 00:18:57,715:DEBUG:idx 0
+2025-09-22 00:18:57,715:DEBUG:running CmdStan, num_threads: None
+2025-09-22 00:18:57,715:DEBUG:CmdStan args: ['/home/ubuntu/aditya/venv311/lib/python3.12/site-packages/prophet/stan_model/prophet_model.bin', 'random', 'seed=5048', 'data', 'file=/tmp/tmpirvb7iq1/c0ilo_gf.json', 'init=/tmp/tmpirvb7iq1/6q87_vdn.json', 'output', 'file=/tmp/tmpirvb7iq1/prophet_modeleb5m_nps/prophet_model-20250922001857.csv', 'method=optimize', 'algorithm=lbfgs', 'iter=10000']
+2025-09-22 00:18:57,715:INFO:Chain [1] start processing
+2025-09-22 00:18:58,224:INFO:Chain [1] done processing
+2025-09-22 00:19:23,704:ERROR:Error in rnn_prediction: 'NoneType' object has no attribute 'pop'
+2025-09-22 00:19:23,710:ERROR:Error in display_stock_prediction: 'NoneType' object has no attribute 'pop'
+2025-09-22 00:20:46,759:ERROR:Error in rnn_prediction: pop from empty list
+2025-09-22 00:20:46,781:ERROR:Error in display_stock_prediction: pop from empty list
+2025-09-22 00:20:49,461:ERROR:Error in rnn_prediction: pop from empty list
+2025-09-22 00:20:51,421:ERROR:Error in rnn_prediction: 'NoneType' object has no attribute 'pop'
+2025-09-22 00:20:51,426:ERROR:Error in display_stock_prediction: 'NoneType' object has no attribute 'pop'
+2025-09-22 00:21:58,955:ERROR:Error in get_company_news: search() got an unexpected keyword argument 'num_results'
+2025-09-22 00:22:00,344:ERROR:Error in rnn_prediction: 'NoneType' object has no attribute 'pop'
+2025-09-22 00:22:08,983:ERROR:Error in get_company_news: search() got an unexpected keyword argument 'num_results'
+2025-09-22 00:22:32,968:ERROR:Error in get_company_news: search() got an unexpected keyword argument 'num_results'
